@@ -11,6 +11,7 @@ import Foundation
 struct Game {
     var word: String
     var incorrectMovesRemaining: Int
+    var points: Int
     var guessedLetters: [Character]
     var formattedWord: String {
         var guessedWord = ""
@@ -28,7 +29,7 @@ struct Game {
         guessedLetters.append(letter)
         if !word.contains(letter) {
             incorrectMovesRemaining -= 1
-        }
+        } 
     }
     
 }

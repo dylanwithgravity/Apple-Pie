@@ -12,6 +12,11 @@ class ViewController: UIViewController {
     
     var listOfWords = ["pizza", "hotel", "glorious", "incandescent", "bug"]
     let incorrectMovesAllowed = 7
+    var gamePoints = 0 {
+        didSet {
+            newRound()
+        }
+    }
     var totalWins = 0 {
         didSet {
             newRound()
@@ -38,7 +43,7 @@ class ViewController: UIViewController {
     func newRound() {
         if !listOfWords.isEmpty {
             let newWord = listOfWords.removeFirst()
-            currentGame = Game(word: newWord, incorrectMovesRemaining: incorrectMovesAllowed, guessedLetters: [])
+            currentGame = Game(word: newWord, incorrectMovesRemaining: incorrectMovesAllowed, points: gamePoints, guessedLetters: [])
             enableLetterButtons(true)
             updateUI()
         } else {
@@ -59,6 +64,7 @@ class ViewController: UIViewController {
             totalLosses += 1
         } else if currentGame.word == currentGame.formattedWord {
             totalWins += 1
+            gamePoints += 5
         } else {
             updateUI()
         }
@@ -69,7 +75,7 @@ class ViewController: UIViewController {
         var letters = [String]()
         letters = currentGame.formattedWord.map({ String($0)})
         let wordWithSpacing = letters.joined(separator: " ")
-        scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses)"
+        scoreLabel.text = "Wins: \(totalWins), Losses: \(totalLosses), Points: \(gamePoints)"
         correctWordLabel.text = wordWithSpacing
         treeImageView.image = UIImage(named: "Tree \(currentGame.incorrectMovesRemaining)")
     }
